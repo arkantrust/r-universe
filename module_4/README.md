@@ -7,6 +7,8 @@ At the end of this module you will be able to use the R package [dplyr]() to:
   - Filter observations on a data object.
   - Select, transform and create variables in an object with data in R.
   - Join objects with data.
+  
+Here is a [youtube video](https://www.youtube.com/watch?v=-sx0ZG-yUF8) with these topics.
 
 # Notes
 

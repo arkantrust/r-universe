@@ -1,0 +1,44 @@
+---
+title: "Script_dplyr_C4"
+author: "David Dulce"
+date: "2024-02-17"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Instrucciones
+
+## Ejercicio 1
+
+Crea un objeto para solo las películas de la plataforma Hulu (recuerda crear la variable Plataforma). Ahora, unamos los cuatro objetos movies_netflix, movies_prime, movies_disney y movies_hulu para crear el objeto movies2.
+
+```{r movies2}
+movies_hulu <- movies %>%
+  filter(Hulu == 1) %>%
+  select("Title", "Year", "Age", "Rotten.Tomatoes") %>% 
+  mutate(Plataforma = "Hulu")
+
+movies2 <- bind_rows(
+  movies_netflix %>% mutate(Plataforma = "Netflix"),
+  movies_prime %>% mutate(Plataforma = "Prime Video"),
+  movies_disney %>% mutate(Plataforma = "Disney+"),
+  movies_hulu %>% mutate(Plataforma = "Hulu")
+)
+```
+
+## Ejercicio 2
+
+Nota que este nuevo objeto conforma una base de datos que tiene la misma información que el objeto movies. Pero este último objeto tiene 9 variables y movies2 solo 5. Esto ocurre porque la variable Type no es relevante, al tener unos datos filtrados para solo películas. Y las variables Netflix, Hulu, Prime.Video y Disney las sintetizamos en una variable que llamamos Plataforma. Dado que hay películas que aparecen en varias plataformas, tendremos mas filas en el objeto movies2 que en movies. De hecho, la forma como está presentada la base de datos movies se conoce como la forma ancha (wide) y movies2 com la forma larga (long).
+
+Ahora, calcula el promedio de las calificaciones de Rotten Tomatoes para el 2019 para cada plataforma empleando el objeto movies2. Recuerda quitar los casos que no tienen calificación.
+
+``` {r movies2}
+movies2 %>%  
+  filter(Year == 2019) %>% 
+  filter( !is.na(Rotten.Tomatoes)) %>%
+  group_by(Plataforma) %>% 
+  summarise(Cal_prom = mean(Rotten.Tomatoes))
+```
